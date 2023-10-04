@@ -3,30 +3,45 @@ import 'package:english_words/english_words.dart' as english_words;
 import 'dart:async';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
     final style = theme.textTheme.displayMedium!.copyWith(
-      color: theme.colorScheme.onPrimary,
+      color: Color.fromARGB(238, 244, 67, 54),
       fontWeight: FontWeight.w700,
       fontFamily: 'Poppins',
     );
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Word Game', style: style),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(40.0),
+              child: Text(
+                'Word Game',
+                style: style.copyWith(fontSize: 40.0),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
         ),
-        body: GameScreen(),
+        body: const GameScreen(),
       ),
     );
   }
 }
 
 class GameScreen extends StatefulWidget {
+  const GameScreen({super.key});
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -47,7 +62,7 @@ class _GameScreenState extends State<GameScreen> {
   }
 
   void startTimer() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
         if (this.timer > 0) {
           this.timer--;
@@ -62,6 +77,12 @@ class _GameScreenState extends State<GameScreen> {
   void showMessage(String msg) {
     setState(() {
       message = msg;
+    });
+  }
+
+  void resetTimer() {
+    setState(() {
+      timer = 60;
     });
   }
 
@@ -81,6 +102,7 @@ class _GameScreenState extends State<GameScreen> {
         controller.clear();
         showMessage("");
         generateComputerWord();
+        resetTimer();
       }
     }
   }
@@ -101,61 +123,96 @@ class _GameScreenState extends State<GameScreen> {
     } else {
       words.add(computerWord.toLowerCase());
       currentWord = computerWord.toLowerCase();
-      showMessage("Computer played: $computerWord");
+      //showMessage("Computer played: $computerWord");
+      resetTimer();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    final style = theme.textTheme.headlineMedium!.copyWith(
+    final style = theme.textTheme.headlineSmall!.copyWith(
       color: Colors.black,
-      fontWeight: FontWeight.w700,
+      fontWeight: FontWeight.w500,
       fontFamily: 'Poppins',
     );
-
+    SizedBox(height: 20);
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Current Word: $currentWord",
-            style: style,
+          padding: const EdgeInsets.only(top: 40),
+          child: Container(
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.white,
+                  width: 2.0,
+                ),
+              ),
+            ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(10.0),
           child: TextField(
+            enabled: false,
+            style: style,
+            //controller: controller,
+            decoration: InputDecoration(
+                labelText: "Computer's Word: $currentWord",
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.grey[200],
+                contentPadding: EdgeInsets.all(10.0)),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: TextField(
+            style: style,
+            enabled: true,
             controller: controller,
             decoration: InputDecoration(
-              labelText: 'Enter a word',
-              border: OutlineInputBorder(),
-              filled: true,
-              fillColor: Colors.grey[200],
-            ),
+                labelText: 'Enter a word',
+                labelStyle: TextStyle(color: Colors.black45),
+                border: const OutlineInputBorder(),
+                filled: true,
+                fillColor: Colors.grey[200],
+                contentPadding: EdgeInsets.all(10.0)),
           ),
         ),
         ElevatedButton(
           onPressed: checkWord,
-          child: Text('Submit'),
           style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.green, padding: const EdgeInsets.all(25)),
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.only(
+                  left: 30.0, right: 30.0, top: 20.0, bottom: 20.0)),
+          child: const Text(
+            'Submit',
+            style: TextStyle(
+                fontSize: 20,
+                fontFamily: "Poppins",
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            message,
+            style: const TextStyle(
+                color: Colors.red, fontSize: 16, fontFamily: "Poppins"),
+          ),
         ),
         Padding(
           padding: const EdgeInsets.all(20.0),
           child: Text(
-            message,
-            style: TextStyle(color: Colors.red, fontSize: 16),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text(
-            "Time left: $timer seconds",
-            style: TextStyle(
+            "$timer s",
+            style: const TextStyle(
                 fontSize: 20,
                 fontFamily: "Poppins",
-                fontWeight: FontWeight.w700),
+                color: Colors.black54,
+                fontWeight: FontWeight.w500),
           ),
         ),
       ],
