@@ -59,6 +59,7 @@ class _GameScreenState extends State<GameScreen> {
   String end = "End Game";
   bool _showWordsList = false;
   late FocusNode _focusNode;
+  bool _isTextFieldEnabled = true;
 
   void _toggleWordsList() {
     setState(() {
@@ -83,6 +84,7 @@ class _GameScreenState extends State<GameScreen> {
       message = "";
       timer = 60;
       isEnded = false;
+      _isTextFieldEnabled = true; // Enable the text field
       startTimer();
       generateComputerWord();
       _toggleWordsList();
@@ -96,10 +98,29 @@ class _GameScreenState extends State<GameScreen> {
     _timer.cancel();
     setState(() {
       isEnded = true;
+      _isTextFieldEnabled = false; // Disable the text field
       _toggleWordsList();
       _toggleGameButtonLabel();
       _focusNode.unfocus(); // Close the keypad
     });
+  }
+
+  Widget buildTimer() {
+    if (isEnded) {
+      return Container(); // Return an empty container to hide the timer
+    }
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Text(
+        "$timer s",
+        style: const TextStyle(
+          fontSize: 20,
+          fontFamily: "Poppins",
+          color: Colors.black54,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
   }
 
   Widget buildWordsList() {
@@ -240,7 +261,7 @@ class _GameScreenState extends State<GameScreen> {
           child: TextField(
             focusNode: _focusNode, // Assign the focus node here
             style: style,
-            enabled: true,
+            enabled: _isTextFieldEnabled, // Enable or disable the text field
             controller: controller,
             decoration: InputDecoration(
                 labelText: 'Enter a word',
@@ -301,17 +322,7 @@ class _GameScreenState extends State<GameScreen> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Text(
-            "$timer s",
-            style: const TextStyle(
-                fontSize: 20,
-                fontFamily: "Poppins",
-                color: Colors.black54,
-                fontWeight: FontWeight.w500),
-          ),
-        ),
+        buildTimer(),
         buildWordsList(),
       ],
     );
