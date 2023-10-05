@@ -20,16 +20,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          title: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Text(
-                'Word Game',
-                style: style.copyWith(fontSize: 40.0),
-                textAlign: TextAlign.center,
-              ),
+          backgroundColor: Colors.white,
+          toolbarHeight: 100,
+          flexibleSpace: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.only(top: 60.0),
+            child: Text(
+              'Word Game',
+              style: style.copyWith(fontSize: 40.0),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
@@ -123,7 +122,6 @@ class _GameScreenState extends State<GameScreen> {
     } else {
       words.add(computerWord.toLowerCase());
       currentWord = computerWord.toLowerCase();
-      //showMessage("Computer played: $computerWord");
       resetTimer();
     }
   }
@@ -140,20 +138,8 @@ class _GameScreenState extends State<GameScreen> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 40),
-          child: Container(
-            decoration: const BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.white,
-                  width: 2.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 50.0, bottom: 10.0),
           child: TextField(
             enabled: false,
             style: style,
@@ -167,7 +153,8 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(
+              left: 30.0, right: 30.0, top: 30.0, bottom: 60.0),
           child: TextField(
             style: style,
             enabled: true,
@@ -186,7 +173,7 @@ class _GameScreenState extends State<GameScreen> {
           style: ElevatedButton.styleFrom(
               backgroundColor: Colors.green,
               padding: const EdgeInsets.only(
-                  left: 30.0, right: 30.0, top: 20.0, bottom: 20.0)),
+                  left: 50.0, right: 50.0, top: 10.0, bottom: 10.0)),
           child: const Text(
             'Submit',
             style: TextStyle(
@@ -197,7 +184,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
           child: Text(
             message,
             style: const TextStyle(
@@ -205,7 +192,7 @@ class _GameScreenState extends State<GameScreen> {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Text(
             "$timer s",
             style: const TextStyle(
