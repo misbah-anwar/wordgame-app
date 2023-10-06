@@ -84,7 +84,7 @@ class _GameScreenState extends State<GameScreen> {
       message = "";
       timer = 60;
       isEnded = false;
-      _isTextFieldEnabled = true; // Enable the text field
+      _isTextFieldEnabled = true;
       startTimer();
       generateComputerWord();
       _toggleWordsList();
@@ -98,16 +98,16 @@ class _GameScreenState extends State<GameScreen> {
     _timer.cancel();
     setState(() {
       isEnded = true;
-      _isTextFieldEnabled = false; // Disable the text field
+      _isTextFieldEnabled = false;
       _toggleWordsList();
       _toggleGameButtonLabel();
-      _focusNode.unfocus(); // Close the keypad
+      _focusNode.unfocus();
     });
   }
 
   Widget buildTimer() {
     if (isEnded) {
-      return Container(); // Return an empty container to hide the timer
+      return Container();
     }
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -259,9 +259,9 @@ class _GameScreenState extends State<GameScreen> {
           padding: const EdgeInsets.only(
               left: 30.0, right: 30.0, top: 20.0, bottom: 60.0),
           child: TextField(
-            focusNode: _focusNode, // Assign the focus node here
+            focusNode: _focusNode,
             style: style,
-            enabled: _isTextFieldEnabled, // Enable or disable the text field
+            enabled: _isTextFieldEnabled,
             controller: controller,
             decoration: InputDecoration(
                 labelText: 'Enter a word',
