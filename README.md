@@ -1,4 +1,4 @@
-# word_game_app
+# Word Game App
 
 A new Flutter project.
 
