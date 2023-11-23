@@ -1,5 +1,4 @@
-# Word Game App
-
+# Word Game
 A new Flutter project.
 
 ## Getting Started
